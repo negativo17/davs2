@@ -9,14 +9,18 @@ Source0:    https://github.com/pkuvcl/%{name}/archive/%{version}.tar.gz#/%{name}
 # https://github.com/pkuvcl/davs2/commit/00ef2c8062a7f7d7265d933676fb5cc60f1ea659
 Patch0:     %{name}-1.6-gcc8-fix.patch
 
+%if 0%{?rhel} == 7
+BuildRequires:  prelink
+%else
 BuildRequires:  execstack
+%endif
 BuildRequires:  gcc-c++
 BuildRequires:  yasm
 
 %description
 davs2 is an open-source decoder of AVS2-P2/IEEE1857.4 video coding standard.
 
-This package contains the command line encoder.
+This package contains the command line decoder.
 
 %package libs
 Summary:    AVS2-P2/IEEE1857.4 decoder library
@@ -27,7 +31,7 @@ davs2 is an open-source decoder of AVS2-P2/IEEE1857.4 video coding standard.
 This package contains the shared library.
 
 %package devel
-Summary:    AVS2-P2/IEEE1857.4 encoder library development files
+Summary:    AVS2-P2/IEEE1857.4 decoder library development files
 Requires:   %{name}-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description devel
