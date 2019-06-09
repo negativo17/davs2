@@ -1,16 +1,22 @@
+%global commit0 e4bcf6b50c81684e63a612577237929f7a7944ad
+%global date 20190409
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+
 Name:       davs2
 Version:    1.6
-Release:    1%{?dist}
+Release:    3%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:    An open-source decoder of AVS2-P2/IEEE1857.4 video coding standard
 URL:        https://github.com/pkuvcl/%{name}
 License:    GPLv2
 
+%if %{?shortcommit0}
+Source0:    https://github.com/pkuvcl/%{name}/archive/%{commit0}/%{name}-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+%else
 Source0:    https://github.com/pkuvcl/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-# https://github.com/pkuvcl/davs2/commit/00ef2c8062a7f7d7265d933676fb5cc60f1ea659
-Patch0:     %{name}-1.6-gcc8-fix.patch
+%endif
 
 BuildRequires:  gcc-c++
-BuildRequires:  yasm
+BuildRequires:  nasm >= 2.13
 
 %description
 davs2 is an open-source decoder of AVS2-P2/IEEE1857.4 video coding standard.
@@ -35,7 +41,7 @@ davs2 is an open-source decoder of AVS2-P2/IEEE1857.4 video coding standard.
 This package contains the shared library development files.
 
 %prep
-%autosetup -p1
+%autosetup %{?shortcommit0:-n %{name}-%{commit0}}
 
 %build
 cd build/linux
@@ -74,5 +80,8 @@ cd build/linux
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sun Jun 09 2019 Simone Caronni <negativo17@gmail.com> - 1.6-3.20190409gite4bcf6b
+- Update to latest snapshot to fix various build issues.
+
 * Sat Jun 08 2019 Simone Caronni <negativo17@gmail.com> - 1.6-1
 - First build.
