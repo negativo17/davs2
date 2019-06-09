@@ -9,11 +9,6 @@ Source0:    https://github.com/pkuvcl/%{name}/archive/%{version}.tar.gz#/%{name}
 # https://github.com/pkuvcl/davs2/commit/00ef2c8062a7f7d7265d933676fb5cc60f1ea659
 Patch0:     %{name}-1.6-gcc8-fix.patch
 
-%if 0%{?rhel} == 7
-BuildRequires:  prelink
-%else
-BuildRequires:  execstack
-%endif
 BuildRequires:  gcc-c++
 BuildRequires:  yasm
 
@@ -54,7 +49,6 @@ cd build/linux
 # Remove hardcoded CFLAGS on generated file containing variables
 sed -i \
     -e 's|CFLAGS=.*%{optflags}|CFLAGS=%{optflags}|g' \
-    -e 's|-mpreferred-stack-boundary=5 ||g' \
     config.mak
 
 %make_build
@@ -62,9 +56,6 @@ sed -i \
 %install
 cd build/linux
 %make_install
-execstack -c \
-    %{buildroot}%{_libdir}/lib%{name}.so.* \
-    %{buildroot}%{_bindir}/%{name}
 
 %ldconfig_scriptlets libs
 
