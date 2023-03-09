@@ -1,10 +1,10 @@
-%global commit0 b06d7585620f4e90a6d19a2926bb4e59793b8942
-%global date 20200419
+%global commit0 b41cf117452e2d73d827f02d3e30aa20f1c721ac
+%global date 20220903
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:       davs2
 Version:    1.6
-Release:    4%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Release:    5%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:    An open-source decoder of AVS2-P2/IEEE1857.4 video coding standard
 URL:        https://github.com/pkuvcl/%{name}
 License:    GPLv2
@@ -90,6 +90,9 @@ cd build/linux
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Mar 09 2023 Simone Caronni <negativo17@gmail.com> - 1.6-5.20220903gitb41cf11
+- Update to latest snapshot.
+
 * Sat May 23 2020 Simone Caronni <negativo17@gmail.com> - 1.6-4.20200419gitb06d758
 - Update to latest snapshot.
 - Disable ASM for aarch64 builds.
