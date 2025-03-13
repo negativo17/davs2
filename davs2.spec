@@ -1,19 +1,15 @@
-%global commit0 b41cf117452e2d73d827f02d3e30aa20f1c721ac
+%global commit b41cf117452e2d73d827f02d3e30aa20f1c721ac
 %global date 20220903
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:       davs2
-Version:    1.6
-Release:    5%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Version:    1.7^%{date}git%{shortcommit}
+Release:    6%{?dist}
 Summary:    An open-source decoder of AVS2-P2/IEEE1857.4 video coding standard
 URL:        https://github.com/pkuvcl/%{name}
 License:    GPLv2
 
-%if "%{?shortcommit0}"
-Source0:    https://github.com/pkuvcl/%{name}/archive/%{commit0}/%{name}-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
-%else
-Source0:    https://github.com/pkuvcl/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-%endif
+Source0:    https://github.com/pkuvcl/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz#/%{name}-%{shortcommit}.tar.gz
 
 BuildRequires:  gcc-c++
 %ifarch x86_64
@@ -43,12 +39,7 @@ davs2 is an open-source decoder of AVS2-P2/IEEE1857.4 video coding standard.
 This package contains the shared library development files.
 
 %prep
-# Use flat condition or it fails on EPEL 7
-%if "%{?shortcommit0}"
-%autosetup -n %{name}-%{commit0}
-%else
-%autosetup
-%endif
+%autosetup -n %{name}-%{commit}
 
 %build
 cd build/linux
@@ -73,8 +64,6 @@ sed -i \
 cd build/linux
 %make_install
 
-%ldconfig_scriptlets libs
-
 %files
 %{_bindir}/%{name}
 
@@ -90,6 +79,9 @@ cd build/linux
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Mar 13 2025 Simone Caronni <negativo17@gmail.com> - 1.7^20220903gitb41cf11-6
+- Clean up SPEC file.
+
 * Thu Mar 09 2023 Simone Caronni <negativo17@gmail.com> - 1.6-5.20220903gitb41cf11
 - Update to latest snapshot.
 
