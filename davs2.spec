@@ -4,7 +4,7 @@
 
 Name:       davs2
 Version:    1.7^%{date}git%{shortcommit}
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    An open-source decoder of AVS2-P2/IEEE1857.4 video coding standard
 URL:        https://github.com/pkuvcl/%{name}
 License:    GPLv2
@@ -47,10 +47,10 @@ cd build/linux
     --bit-depth='8' \
     --chroma-format='all' \
     --disable-static \
-%ifarch aarch64
-    --disable-asm \
-%else
+%ifarch x86_64
     --enable-asm \
+%else
+    --disable-asm \
 %endif
     --enable-pic \
     --enable-shared
@@ -81,6 +81,9 @@ cd build/linux
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Nov 03 2025 Simone Caronni <negativo17@gmail.com> - 1.7^20220903gitb41cf11-7
+- Update conditions for i386 build.
+
 * Thu Mar 13 2025 Simone Caronni <negativo17@gmail.com> - 1.7^20220903gitb41cf11-6
 - Clean up SPEC file.
 
